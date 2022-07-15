@@ -10,6 +10,12 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmPopup from './ConfirmPopup';
+import { Route, Switch } from 'react-router-dom';
+import Login from './Login';
+import Register from './Register';
+import InfoTooltip from './InfoTooltip';
+import succesImage from '../images/success.svg';
+import failImage from '../images/fail.svg';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -21,6 +27,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);      //стейт индикатора загрузки запросов
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {   //запрос данных пользователя
     api.getUserInfo()
@@ -155,15 +162,27 @@ function App() {
         (
         <Header />
 
-        <Main 
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleOpenConfirmPopup}
-        />
+        <Switch>
+          <Route exact path="/">
+            <Main 
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleOpenConfirmPopup}
+            />
+          </Route>
+
+          <Route path="/sign-up">
+           <Register />
+          </Route>
+
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+        </Switch>        
 
         <Footer />
 
@@ -204,6 +223,8 @@ function App() {
           onClose={closeAllPopups}
           onEscapeClose={handleEscClose}
         />
+
+        <InfoTooltip />
         )
       </div>
     </CurrentUserContext.Provider>
