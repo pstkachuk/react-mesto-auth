@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import api from '../utils/Api';
+import auth from '../utils/Auth';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -29,6 +30,14 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);      //стейт индикатора загрузки запросов
   const [loggedIn, setLoggedIn] = useState(false);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push('/')
+    }
+  }, [loggedIn])
 
   useEffect(() => {   //запрос данных пользователя
     api.getUserInfo()
@@ -82,24 +91,24 @@ function App() {
     });
   }
 
-  function handleEditAvatarClick() {
+  function handleEditAvatarClick() {    //открыть окно добавления аватара
     setIsEditAvatarPopupOpen(true);
   }
 
-  function handleEditProfileClick() {
+  function handleEditProfileClick() {   //открыть окно редактирования профиля
     setIsEditProfilePopupOpen(true);
   }
 
-  function handleAddPlaceClick() {
+  function handleAddPlaceClick() {    //открыть окно добавления карточки
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleOpenConfirmPopup(card) {
+  function handleOpenConfirmPopup(card) {   //открыть окно подтверждения удаления карточки
     setDeletionCard(card);
     setIsConfirmPopupOpen(true);
   }
 
-  function closeAllPopups() {
+  function closeAllPopups() {   //закрыть все окна
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
@@ -108,11 +117,11 @@ function App() {
     setDeletionCard({});
   }
 
-  function handleCardClick(card) {
+  function handleCardClick(card) {    //открыть попап с картинкой
     setSelectedCard(card);
   }
 
-  function handleUpdateUser(userData) {
+  function handleUpdateUser(userData) {   //установить данные пользователя
     setIsLoading(true);
     api.setUserInfo(userData.name, userData.about)
     .then(setCurrentUser)
@@ -138,7 +147,7 @@ function App() {
     });
   }
 
-  function handleAddPlaceSubmit(cardData) {
+  function handleAddPlaceSubmit(cardData) {   //добавить карточку
     setIsLoading(true);
     api.addNewCard(cardData.name, cardData.link)
     .then((newCard) => {
@@ -153,8 +162,21 @@ function App() {
     });
   }
 
-  function handleEscClose(evt) {
+  function handleEscClose(evt) {    //закрыть на ESC
     evt.key === 'Escape' && closeAllPopups();
+  }
+
+  function handleRegister(email, password) {   //запрос на регистрацию
+    auth.registration(email, password)
+    .then((res) => {
+      if (res) {
+        history.push('/sign-in')
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
   }
 
   return (
@@ -179,14 +201,14 @@ function App() {
           />
 
           <Route path="/sign-up">
-            <Register />
+            <Register onRegister={handleRegister} />
           </Route>
 
           <Route path="/sign-in">
             <Login />
           </Route>
 
-          <Route>
+          <Route exact path='/'>
             { loggedIn ? <Redirect to='/' /> : <Redirect to='/sign-in' /> }
           </Route>
         </Switch>
