@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import api from '../utils/Api';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
-import api from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmPopup from './ConfirmPopup';
-import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
+import ProtectedRoute from './ProtectedRoute';
 import succesImage from '../images/success.svg';
 import failImage from '../images/fail.svg';
 
@@ -163,44 +164,50 @@ function App() {
         <Header />
 
         <Switch>
-          <Route exact path="/">
-            <Main 
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleOpenConfirmPopup}
-            />
-          </Route>
+          <ProtectedRoute
+            exact
+            path="/"
+            loggedIn={loggedIn}
+            component={Main}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleOpenConfirmPopup}
+          />
 
           <Route path="/sign-up">
-           <Register />
+            <Register />
           </Route>
 
           <Route path="/sign-in">
             <Login />
           </Route>
-        </Switch>        
+
+          <Route>
+            { loggedIn ? <Redirect to='/' /> : <Redirect to='/sign-in' /> }
+          </Route>
+        </Switch>
 
         <Footer />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups} 
+          onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
           isLoading={isLoading}
           onEscapeClose={handleEscClose}
         />
 
-        <EditAvatarPopup 
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
           isLoading={isLoading}
           onEscapeClose={handleEscClose}
-        />        
+        />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
@@ -208,9 +215,9 @@ function App() {
           onAddPlace={handleAddPlaceSubmit}
           isLoading={isLoading}
           onEscapeClose={handleEscClose}
-         />        
+        />
 
-        <ConfirmPopup 
+        <ConfirmPopup
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
           onDeleteCard={handleCardDelete}
@@ -218,7 +225,7 @@ function App() {
           onEscapeClose={handleEscClose}
         />
 
-        <ImagePopup 
+        <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
           onEscapeClose={handleEscClose}
