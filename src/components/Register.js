@@ -15,8 +15,7 @@ function Register({onRegister}) {
   function handleSubmit(evt) {
     evt.preventDefault();
     onRegister(inputsValues.email, inputsValues.password);
-  }
- 
+  } 
 
   return(
     <div className="authorization">

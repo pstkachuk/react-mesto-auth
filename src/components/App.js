@@ -30,14 +30,14 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);      //стейт индикатора загрузки запросов
   const [loggedIn, setLoggedIn] = useState(false);
-
+  const [userEmail, setUserEmail] = useState('');
   const history = useHistory();
 
-  useEffect(() => {
-    if (loggedIn) {
-      history.push('/')
-    }
-  }, [loggedIn])
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     history.push('/')
+  //   }
+  // }, [loggedIn])
 
   useEffect(() => {   //запрос данных пользователя
     api.getUserInfo()
@@ -53,6 +53,10 @@ function App() {
     .catch((err) => {
       console.log(err);
     })
+  }, [])
+
+  useEffect(() => {
+    handleTokenCheck();
   }, [])
 
   function handleSetCardsState(card) {
@@ -176,18 +180,46 @@ function App() {
     .catch((err) => {
       console.log(err);
     })
+  }
 
+  function handleLogin(email, password) {   //запрос на авторизацию
+    auth.authorization(email, password)
+    .then((res) => {
+      if (res.token) {
+        setLoggedIn(true);
+        localStorage.setItem('token', res.token);
+        history.push('/')
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  function handleTokenCheck() {   //проверка токена
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth.tokenCheck(token)
+      .then((res) => {
+        setLoggedIn(true);
+        setUserEmail(res.data.email);
+        history.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         (
-        <Header />
+        <Header userEmail={userEmail} />
 
         <Switch>
           <ProtectedRoute
-            exact
+            // exact
             path="/"
             loggedIn={loggedIn}
             component={Main}
@@ -205,10 +237,10 @@ function App() {
           </Route>
 
           <Route path="/sign-in">
-            <Login />
+            <Login onLogin={handleLogin}/>
           </Route>
 
-          <Route exact path='/'>
+          <Route>
             { loggedIn ? <Redirect to='/' /> : <Redirect to='/sign-in' /> }
           </Route>
         </Switch>

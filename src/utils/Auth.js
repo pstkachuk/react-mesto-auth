@@ -26,6 +26,37 @@ class Auth {
     )
     .then(this._requestIsOk);
   }
+
+  authorization(email, password) {
+    return fetch(
+      `${this._baseUrl}/signin`,
+      {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      }
+    )
+    .then(this._requestIsOk);
+  }
+
+  tokenCheck(token) {
+    return fetch(
+      `${this._baseUrl}/users/me`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization' : `Bearer ${token}`
+        }
+      }
+    )
+    .then(this._requestIsOk);
+  }
 }
 
 const auth = new Auth({baseUrl: 'https://auth.nomoreparties.co'});

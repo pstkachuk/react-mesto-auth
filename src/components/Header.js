@@ -1,7 +1,7 @@
 import headerLogo from '../images/header-logo.svg';
 import { Switch, Route, Link } from 'react-router-dom';
 
-function Header() {
+function Header({userEmail}) {
   return(
     <header className="header">
       <img src={headerLogo} alt="Логотип Место" className="header__logo" />
