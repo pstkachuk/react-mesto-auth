@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import api from '../utils/Api';
 import auth from '../utils/Auth';
 import Header from './Header';
@@ -34,12 +34,6 @@ function App() {
   const [userEmail, setUserEmail] = useState('');
   const [tooltip, setTooltip] = useState({});   //данные для окна с сообщением
   const history = useHistory();
-
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     history.push('/')
-  //   }
-  // }, [loggedIn])
 
   useEffect(() => {   //запрос данных пользователя
     api.getUserInfo()
@@ -264,11 +258,7 @@ function App() {
 
           <Route path="/signin">
             <Login onLogin={handleLogin}/>
-          </Route>          
-
-          {/* <Route>
-            { loggedIn ? <Redirect to='/' /> : <Redirect to='/signin' /> }
-          </Route> */}
+          </Route> 
         </Switch>
 
         <Footer />

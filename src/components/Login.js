@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 function Login({onLogin}) {
   const [inputsValues, setInputsValues] = useState({
