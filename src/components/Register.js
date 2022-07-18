@@ -15,6 +15,10 @@ function Register({onRegister}) {
   function handleSubmit(evt) {
     evt.preventDefault();
     onRegister(inputsValues.email, inputsValues.password);
+    setInputsValues({
+      email: '',
+      password: ''
+    })
   } 
 
   return(
@@ -51,7 +55,7 @@ function Register({onRegister}) {
           Зарегистрироваться
         </button>
       </form>
-      <Link to='./sign-in' className="authorization__link">
+      <Link to='/signin' className="authorization__link">
         Уже зарегистрированны? Войти
       </Link>
     </div>

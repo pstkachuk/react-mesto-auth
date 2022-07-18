@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Login({onLogin}) {
   const [inputsValues, setInputsValues] = useState({
@@ -7,13 +7,13 @@ function Login({onLogin}) {
   })
 
   function handleChange(evt) {
-    const { name, value} = evt.target;
+    const { name, value } = evt.target;
     setInputsValues({...inputsValues, [name]: value})
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onLogin(inputsValues.email, inputsValues.password)
+    onLogin(inputsValues.email, inputsValues.password)    
   }
 
   return(
