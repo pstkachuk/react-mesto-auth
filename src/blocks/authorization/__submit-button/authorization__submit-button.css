@@ -17,3 +17,9 @@
 .authorization__submit-button:hover {
   opacity: .85;
 }
+
+@media screen and (max-width: 500px) {
+  .authorization__submit-button {
+    margin-top: 173px;
+  }
+}

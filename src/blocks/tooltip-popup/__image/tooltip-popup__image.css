@@ -6,3 +6,10 @@
   margin-bottom: 32px;
   display: block;
 }
+
+@media screen and (max-width: 500px) {
+  .tooltip-popup__image {
+    margin-bottom: 40px;
+    margin-top: 25px;
+  }
+}

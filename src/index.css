@@ -3,10 +3,17 @@
 @import url(./blocks/page-container/page-container.css);
 @import url(./blocks/page/page.css);
 @import url(./blocks/header/header.css);
+@import url(./blocks/header/_row-direction/header_row-direction.css);
 @import url(./blocks/header/__link/header__link.css);
 @import url(./blocks/header/__link/_exit/header__link_exit.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__email-container/header__email-container.css);
+@import url(./blocks/header/__email-container/_opened/header__email-container_opened.css);
 @import url(./blocks/header/__email/header__email.css);
+@import url(./blocks/header/__menu-button/header__menu-button.css);
+@import url(./blocks/header/__menu-button/_status/header__menu-button_status_hide.css);
+@import url(./blocks/header/__menu-button/_status/header__menu-button_status_opened.css);
+@import url(./blocks/header/__menu-container/header__menu-container.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__add-button/profile__add-button.css);
 @import url(./blocks/profile/__avatar-container/profile__avatar-container.css);

@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;  
 }
 
 @media screen and (max-width: 1279px) {
@@ -21,11 +22,15 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 550px) {
   .header {
     max-width: 100%;
     padding-bottom: 31px;
     padding-top: 28px;
-    padding-left: 27px;
+    padding-left: 30px;
+    padding-right: 30px;
+    align-items: stretch;
+    flex-direction: column-reverse;
+    gap: 27px;    
   }
 }

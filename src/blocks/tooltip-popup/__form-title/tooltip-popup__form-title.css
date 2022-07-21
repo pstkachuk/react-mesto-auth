@@ -7,3 +7,10 @@
   margin-bottom: 27px;
   text-align: center;
 }
+
+@media screen and (max-width: 500px) {
+  .tooltip-popup__form-title {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+}

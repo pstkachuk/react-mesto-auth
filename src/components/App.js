@@ -235,7 +235,11 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         (
-        <Header userEmail={userEmail} onSignOut={handleSignOut} />
+        <Header 
+          userEmail={userEmail} 
+          onSignOut={handleSignOut}
+          loggedIn={loggedIn}
+        />
 
         <Switch>
           <ProtectedRoute
