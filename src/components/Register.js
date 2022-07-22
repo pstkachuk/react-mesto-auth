@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AuthForm from './AuthForm';
 
 function Register({onRegister}) {
   const [inputsValues, setInputsValues] = useState({
@@ -22,14 +23,13 @@ function Register({onRegister}) {
   } 
 
   return(
-    <div className="authorization">
-      <h2 className="authorization__title">Регистрация</h2>
-      <form 
-        className="authorization__form" 
-        name="register" 
-        noValidate
-        onSubmit={handleSubmit}>
-        <input 
+    <AuthForm
+      formName="register"
+      textOnButton="Зарегистрироваться"
+      onSubmit={handleSubmit}
+      title="Регистрация"
+    >
+      <input 
           className="authorization__input" 
           type="email"
           name="email"
@@ -49,16 +49,7 @@ function Register({onRegister}) {
           onChange={handleChange}
           value={inputsValues.password || ''}
         />
-        <button 
-          className="authorization__submit-button" 
-          type="submit">
-          Зарегистрироваться
-        </button>
-      </form>
-      <Link to='/signin' className="authorization__link">
-        Уже зарегистрированны? Войти
-      </Link>
-    </div>
+    </AuthForm>
   )
 }
 

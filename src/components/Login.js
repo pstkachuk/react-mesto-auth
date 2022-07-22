@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import AuthForm from './AuthForm';
 
 function Login({onLogin}) {
   const [inputsValues, setInputsValues] = useState({
@@ -16,15 +17,14 @@ function Login({onLogin}) {
     onLogin(inputsValues.email, inputsValues.password)    
   }
 
-  return(
-    <div className="authorization">
-      <h2 className="authorization__title">Вход</h2>
-      <form 
-        className="authorization__form" 
-        name="login"
-        noValidate
-        onSubmit={handleSubmit}>
-        <input 
+  return (
+    <AuthForm
+      formName="login"
+      textOnButton="Войти"
+      onSubmit={handleSubmit}
+      title="Вход"
+    >
+      <input 
           className="authorization__input" 
           type="email"
           name="email"
@@ -44,13 +44,7 @@ function Login({onLogin}) {
           onChange={handleChange}
           value={inputsValues.password || ''}
         />
-        <button 
-          className="authorization__submit-button" 
-          type="submit">
-          Войти
-        </button>
-      </form>
-    </div>
+    </AuthForm>
   )
 }
 
