@@ -79,15 +79,17 @@ function App() {
   function handleCardDelete() {   //удалить карточку
     setIsLoading(true);
     api.deleteCard(deletionCard._id)
-    .then(() => {
-      setCards(cards.filter((item) => item._id !== deletionCard._id))
+    .then((res) => {
+      if (res) {
+        setCards(cards.filter((item) => item._id !== deletionCard._id))
+        closeAllPopups();
+      }
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       setIsLoading(false);
-      closeAllPopups();
     });
   }
 
@@ -125,26 +127,34 @@ function App() {
   function handleUpdateUser(userData) {   //установить данные пользователя
     setIsLoading(true);
     api.setUserInfo(userData.name, userData.about)
-    .then(setCurrentUser)
+    .then((res) => {
+      if (res) {
+        setCurrentUser(res); 
+        closeAllPopups();
+      }
+    })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       setIsLoading(false);
-      closeAllPopups(); 
     });
   }
 
   function handleUpdateAvatar(userData) {   //запрос на обновление аватара
     setIsLoading(true);
     api.setAvatar(userData.avatar)
-    .then(setCurrentUser)
+    .then((res) => {
+      if (res) {
+        setCurrentUser(res);
+        closeAllPopups();
+      }
+    })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       setIsLoading(false);
-      closeAllPopups(); 
     });
   }
 
@@ -152,14 +162,16 @@ function App() {
     setIsLoading(true);
     api.addNewCard(cardData.name, cardData.link)
     .then((newCard) => {
-      setCards([newCard, ...cards])
+      if (newCard) {
+        setCards([newCard, ...cards])
+        closeAllPopups();
+      }
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       setIsLoading(false);
-      closeAllPopups(); 
     });
   }
 
